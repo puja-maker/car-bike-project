@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Car vs Bike Classifier</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+<div class="container">
+    <h1> Car vs  Bike Classifier</h1>
+    <p>Upload an image and let AI predict!</p>
+
+    <form id="upload-form">
+        <input type="file" id="file" name="file" accept="image/*" required>
+        <button type="submit">Predict</button>
+    </form>
+
+    <div id="result"></div>
+</div>
+
+<script>
+document.getElementById("upload-form").addEventListener("submit", async function(e) {
+    e.preventDefault();
+
+    const fileInput = document.getElementById("file");
+    const formData = new FormData();
+    formData.append("file", fileInput.files[0]);
+
+    document.getElementById("result").innerHTML = "⏳ Predicting...";
+
+    const response = await fetch("/predict", {
+        method: "POST",
+        body: formData
+    });
+
+    const data = await response.json();
+
+    document.getElementById("result").innerHTML = `
+        <h2>Prediction: ${data.prediction}</h2>
+        <h3>Confidence: ${(data.confidence * 100).toFixed(2)}%</h3>
+    `;
+});
+</script>
+
+</body>
+</html>

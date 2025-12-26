@@ -1,14 +1,14 @@
 import numpy as np
 import tensorflow as tf
 from tensorflow.keras.preprocessing import image
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, render_template
 import os
 
 # ==============================
 # CONFIG
 # ==============================
+MODEL_PATH = "car_bike_model.keras"
 
-MODEL_PATH = r"E:\CNN project\car_bike_model.keras"
 IMG_SIZE = (224, 224)
 
 # ==============================
@@ -28,7 +28,15 @@ print(" Model loaded successfully")
 app = Flask(__name__)
 
 # ==============================
-# PREDICTION ROUTE
+# HOME ROUTE (HTML PAGE)
+# ==============================
+
+@app.route("/")
+def home():
+    return render_template("index.html")
+
+# ==============================
+# PREDICTION ROUTE (API)
 # ==============================
 
 @app.route("/predict", methods=["POST"])
