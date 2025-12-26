@@ -13,7 +13,7 @@ if not os.path.exists(MODEL_PATH):
     raise FileNotFoundError(f"Model not found at {MODEL_PATH}")
 
 model = tf.keras.models.load_model(MODEL_PATH)
-print("✅ Model loaded successfully")
+print(" Model loaded successfully")
 
 app = Flask(__name__)
 
