@@ -8,7 +8,8 @@ import os
 # CONFIG
 # ==============================
 
-MODEL_PATH = "car_bike_model.keras"
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+MODEL_PATH = os.path.join(BASE_DIR, "car_bike_model.keras")
 
 IMG_SIZE = (224, 224)
 
@@ -20,7 +21,7 @@ if not os.path.exists(MODEL_PATH):
     raise FileNotFoundError(f"Model not found at {MODEL_PATH}")
 
 model = tf.keras.models.load_model(MODEL_PATH)
-print(" Model loaded successfully")
+print("✅ Model loaded successfully")
 
 # ==============================
 # FLASK APP
@@ -29,7 +30,7 @@ print(" Model loaded successfully")
 app = Flask(__name__)
 
 # ==============================
-# HOME ROUTE (HTML PAGE)
+# HOME ROUTE
 # ==============================
 
 @app.route("/")
@@ -37,7 +38,7 @@ def home():
     return render_template("index.html")
 
 # ==============================
-# PREDICTION ROUTE (API)
+# PREDICTION ROUTE
 # ==============================
 
 @app.route("/predict", methods=["POST"])
@@ -50,8 +51,8 @@ def predict():
     if file.filename == "":
         return jsonify({"error": "Empty filename"}), 400
 
-    # Save uploaded image temporarily
-    img_path = "temp.jpg"
+    # Save uploaded image
+    img_path = os.path.join(BASE_DIR, "temp.jpg")
     file.save(img_path)
 
     # Load & preprocess image
@@ -70,7 +71,7 @@ def predict():
         label = "BIKE"
         confidence = 1 - prediction
 
-    # Remove temp image
+    # Cleanup
     os.remove(img_path)
 
     return jsonify({
@@ -83,4 +84,4 @@ def predict():
 # ==============================
 
 if __name__ == "__main__":
-    app.run(debug=True, port=8000)
+    app.run(host="0.0.0.0", port=8000)

@@ -38,7 +38,7 @@ temp.jpg
 # Trained Models (Large files)
 # ===============================
 *.h5
-*.keras
+
 
 # ===============================
 # Logs
