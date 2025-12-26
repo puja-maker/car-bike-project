@@ -7,6 +7,7 @@ import os
 # ==============================
 # CONFIG
 # ==============================
+
 MODEL_PATH = "car_bike_model.keras"
 
 IMG_SIZE = (224, 224)
@@ -82,4 +83,4 @@ def predict():
 # ==============================
 
 if __name__ == "__main__":
-    app.run(debug=True, port=5000)
+    app.run(debug=True, port=8000)
